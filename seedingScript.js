@@ -22,7 +22,6 @@ connection.query(seedScript, (err, results) => {
     console.error("Error seeding data:", err);
     connection.end();
   } else {
-    console.log(results);
     console.log("Data seeded successfully.");
     connection.end();
   }
