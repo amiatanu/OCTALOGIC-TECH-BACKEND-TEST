@@ -1,4 +1,17 @@
 import connect from "../config/connection.js";
+import jwt from "jsonwebtoken";
+
+//login and generate JWT
+export const login = async (req, res) => {
+  const { firstName, secondName } = req.body;
+  //
+  if (firstName && secondName) {
+    const token = jwt.sign({ user: firstName }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    res.json({ token });
+  }
+};
 
 // Get  vehicles category
 export const getcategory = async (req, res) => {
