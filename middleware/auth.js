@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-const { JWT_SECRET } = process.env;
 
 export default function authenticateToken(req, res, next) {
   const token = req.headers.authorization;
@@ -8,7 +7,7 @@ export default function authenticateToken(req, res, next) {
     return res.sendStatus(401);
   }
 
-  jwt.verify(token, JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       return res.sendStatus(403);
     }
