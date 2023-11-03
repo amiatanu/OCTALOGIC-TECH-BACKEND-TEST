@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getvehiclelist,
   bookVehicle,
   getvehiclessubcategory,
   getcategory,
@@ -23,6 +24,8 @@ router.get(
   getvehiclessubcategory
 );
 
+//get list of vehiicles by id
+router.get("/getvehiclelist/:id", authenticateToken, getvehiclelist);
 //book vehicles by vehicles id and date
 
 router.post("/bookVehicle", authenticateToken, bookVehicle);
