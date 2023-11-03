@@ -80,7 +80,7 @@ export const getvehiclessubcategory = async (req, res) => {
   }
 };
 
-//get vehicle details
+//get vehicle list
 export const getvehiclelist = async (req, res) => {
   const id = req.params.id;
   if (!id) {
@@ -106,7 +106,7 @@ export const getvehiclelist = async (req, res) => {
   }
 };
 
-// Book a vehicle
+// Book a vehicle with date
 export const bookVehicle = async (req, res) => {
   const { vehicleId, startDate, endDate } = req.body;
   let user = req.user;
