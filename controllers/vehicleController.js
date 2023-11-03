@@ -3,17 +3,23 @@ import jwt from "jsonwebtoken";
 
 // Login and generate JWT
 export const login = async (req, res) => {
-  const { firstName, secondName } = req.body;
+  const { firstName, lastName } = req.body;
 
-  if (!firstName || !secondName) {
+  if (!firstName || !lastName) {
     return res
       .status(400)
       .json({ error: "First name and second name are required." });
   }
 
-  const token = jwt.sign({ user: firstName }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  const payload = {
+    name: `${firstName} ${lastName}`,
+  };
+
+  const expiresIn = "5m"; // Set the expiration time to 5 minutes
+  let secretKey = process.env.JWT_SECRET;
+
+  // Generate the JWT with the updated expiration time
+  const token = jwt.sign(payload, secretKey, { expiresIn });
   res.status(200).json({ token });
 };
 
@@ -72,4 +78,18 @@ export const getvehiclessubcategory = async (req, res) => {
     console.error("Error getting subcategories:", error);
     res.status(500).json({ error: "Internal server error" });
   }
+};
+
+//book vehicles
+// Book a vehicle
+export const bookVehicle = async (req, res) => {
+  const { vehicleId, startDate, endDate } = req.body;
+
+  let userId = req.user;
+  res.send({
+    userId: userId,
+    vehicleId: vehicleId,
+    startDate: startDate,
+    endDate: endDate,
+  });
 };
