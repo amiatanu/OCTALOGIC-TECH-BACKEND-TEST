@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import mysql from "mysql2";
+import mysql from "mysql";
 import fs from "fs";
 dotenv.config();
 
@@ -10,19 +10,37 @@ const dbConfig = {
   database: process.env.DB_DATABASE,
 };
 
-// Create a connection to the database
 const connection = mysql.createConnection(dbConfig);
 
-// Read the SQL script from a file (assuming you have a seed.sql file with your data)
 const seedScript = fs.readFileSync("seed.sql", "utf8");
 
-// Execute the SQL script to insert the data
-connection.query(seedScript, (err, results) => {
+const sqlStatements = seedScript
+  .split(";")
+  .filter((statement) => statement.trim() !== "");
+
+connection.connect((err) => {
   if (err) {
-    console.error("Error seeding data:", err);
-    connection.end();
+    console.error("Error connecting to the database:", err);
   } else {
-    console.log("Data seeded successfully.");
-    connection.end();
+    console.log("Connected to the database.");
+    executeNextStatement();
   }
 });
+
+function executeNextStatement() {
+  if (sqlStatements.length === 0) {
+    connection.end();
+    console.log("Data seeding complete.");
+  } else {
+    const statement = sqlStatements.shift();
+    connection.query(statement, (err, results) => {
+      if (err) {
+        console.error("Error executing SQL statement:", err);
+        connection.end();
+      } else {
+        console.log("SQL statement executed successfully.");
+        executeNextStatement();
+      }
+    });
+  }
+}
