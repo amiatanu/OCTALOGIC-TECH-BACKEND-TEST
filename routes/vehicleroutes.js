@@ -6,6 +6,7 @@ import {
   getcategory,
   login,
 } from "../controllers/vehicleController.js";
+
 import authenticateToken from "../middleware/auth.js";
 const router = express.Router();
 
