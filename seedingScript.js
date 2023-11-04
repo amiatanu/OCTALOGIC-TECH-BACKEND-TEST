@@ -3,6 +3,7 @@ import mysql from "mysql";
 import fs from "fs";
 dotenv.config();
 
+//configuration of your mysql database
 const dbConfig = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,

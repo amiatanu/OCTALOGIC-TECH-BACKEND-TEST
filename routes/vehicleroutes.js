@@ -10,11 +10,10 @@ import {
 import authenticateToken from "../middleware/auth.js";
 const router = express.Router();
 
-// ==================Define routes for vehicles================
-
 //login route to generate jwt
 router.post("/login", login);
 
+// ==================routes for vehicles================
 //get category of vehilcles
 router.get("/vehiclescategory", authenticateToken, getcategory);
 
@@ -27,6 +26,7 @@ router.get(
 
 //get list of vehiicles by id
 router.get("/getvehiclelist/:id", authenticateToken, getvehiclelist);
+
 //book vehicles by vehicles id and date
 
 router.post("/bookVehicle", authenticateToken, bookVehicle);
